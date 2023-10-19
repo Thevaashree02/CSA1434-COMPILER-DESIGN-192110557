@@ -1,0 +1,21 @@
+%{
+int macroCount = 0;
+%}
+
+%%
+#.*    { macroCount++; }
+.|\n   { /* Ignore everything else */ }
+
+%%
+
+int yywrap() {
+    // This function is called by Flex when it reaches the end of input.
+    // Returning 1 indicates that there are no more input files to process.
+    return 1;
+}
+
+int main(int argc, char **argv) {
+    yylex();
+    printf("Number of macros: %d\n", macroCount);
+    return 0;
+}
